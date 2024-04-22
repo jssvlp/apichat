@@ -2,12 +2,20 @@ import os
 from flask import Flask, send_from_directory, render_template, redirect, send_file
 import chats
 import utils
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
+
+
+cors = CORS(app, resource={
+    r"/*":{
+        "origins":"*"
+    }
+})
 
 port = int(os.environ.get("PORT", 5000))
-
 
 
 @app.route('/static/<path:path>')
@@ -20,11 +28,11 @@ def home():
 
 @app.route('/chats')
 def chat():
-    chat = chats.parseFlatFile()
+    chat = chats.getFromJson()
 
     data = { 
             "success" : True, 
-            "data" : chat, 
+            "messages" : chat['messages'], 
     } 
 
     return data

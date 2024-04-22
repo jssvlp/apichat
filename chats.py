@@ -2,6 +2,7 @@
 import os
 import re
 import utils
+import json
 
 def parseFlatFile():
     parsed_chat = []
@@ -21,6 +22,10 @@ def parseFlatFile():
     return parsed_chat
 
 
+def getFromJson():
+    with open('data.json') as chat:
+        data = json.load(chat)
+        return data
 
 def getMessageMedia(message):
     patron = r"<adjunto:\s*(\S+)>"
@@ -53,6 +58,6 @@ def extraer_info(texto):
         return None
 
 if __name__ == "__main__":
-    messages = parseFlatFile()
-    print("messages: " + str(len(messages)))
+    messages = getFromJson()
+    print(messages)
 
