@@ -30,7 +30,7 @@ def home():
 @app.route('/chats')
 def chat():
     page = request.args.get('page', default=1, type=int)
-    per_page = 100  # Number of items per page
+    per_page = 500  # Number of items per page
     data = chats.get_paginated_data(page, per_page)
     return data
     
