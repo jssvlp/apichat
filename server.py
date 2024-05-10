@@ -3,6 +3,7 @@ from flask import Flask, send_from_directory, render_template, redirect, send_fi
 import chats
 import utils
 from flask_cors import CORS
+import json
 
 
 app = Flask(__name__)
@@ -31,7 +32,7 @@ def chat():
     page = request.args.get('page', default=1, type=int)
     per_page = 100  # Number of items per page
     data = chats.get_paginated_data(page, per_page)
-    return jsonify(data)
+    return data
     
 
 @app.route('/file/<path:path>')  

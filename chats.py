@@ -13,10 +13,26 @@ def get_paginated_data(page, per_page):
     conn = sqlite3.connect('database/chats')
     cursor = conn.cursor()
     offset = (page - 1) * per_page
-    cursor.execute(f"SELECT * FROM messages LIMIT ? OFFSET ?", (per_page, offset))
+    cursor.execute(f"SELECT message, media, date, user FROM messages LIMIT ? OFFSET ?", (per_page, offset))
     data = cursor.fetchall()
     conn.close()
-    return data
+    return beatify_data(data)
+
+
+def beatify_data( data ):
+
+    parsed = [];
+
+    for row in data:
+        parsed_row = {
+            'message': row[0],
+            'media': row[1],
+            'date': row[2],
+            'user': row[3]
+        }
+        parsed.append(parsed_row)
+
+    return parsed
 
 def parseFlatFile():
     parsed_chat = []
