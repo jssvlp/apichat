@@ -4,10 +4,7 @@ import re
 import utils
 import json
 import sqlite3
-
-
-
-
+import uuid
 
 def get_paginated_data(page, per_page):
     conn = sqlite3.connect('database/chats')
@@ -25,6 +22,7 @@ def beatify_data( data ):
 
     for row in data:
         parsed_row = {
+            'uid' : uuid.uuid1(),
             'message': row[0],
             'media': None if row[1] == "null" else json.loads(row[1]),
             'date': row[2],
