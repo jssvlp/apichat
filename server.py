@@ -1,5 +1,5 @@
 import os
-from flask import Flask, send_from_directory, render_template, redirect, send_file
+from flask import Flask, send_from_directory, render_template, redirect, send_file, request, jsonify
 import chats
 import utils
 from flask_cors import CORS
@@ -28,14 +28,11 @@ def home():
 
 @app.route('/chats')
 def chat():
-    chat = chats.getFromJson()
-
-    data = { 
-            "success" : True, 
-            "messages" : chat['messages'], 
-    } 
-
-    return data
+    page = request.args.get('page', default=1, type=int)
+    per_page = 100  # Number of items per page
+    data = chats.get_paginated_data(page, per_page)
+    return jsonify(data)
+    
 
 @app.route('/file/<path:path>')  
 def file(path):

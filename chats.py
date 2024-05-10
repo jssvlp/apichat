@@ -3,6 +3,20 @@ import os
 import re
 import utils
 import json
+import sqlite3
+
+
+
+
+
+def get_paginated_data(page, per_page):
+    conn = sqlite3.connect('database/chats')
+    cursor = conn.cursor()
+    offset = (page - 1) * per_page
+    cursor.execute(f"SELECT * FROM messages LIMIT ? OFFSET ?", (per_page, offset))
+    data = cursor.fetchall()
+    conn.close()
+    return data
 
 def parseFlatFile():
     parsed_chat = []
