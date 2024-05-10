@@ -26,7 +26,7 @@ def beatify_data( data ):
     for row in data:
         parsed_row = {
             'message': row[0],
-            'media': row[1],
+            'media': None if row[1] == "null" else json.loads(row[1]),
             'date': row[2],
             'user': row[3]
         }
