@@ -38,14 +38,7 @@ def chat():
 @app.route('/file/<path:path>')  
 def file(path):
     full_path = "static/media/" + path
-
     mimetype = utils.get_mimetype(path)
-
-    if( mimetype == 'audio/opus'):
-        path = path.replace('.opus','.m4a')
-        full_path = "static/media/voice/" + path
-        mimetype = utils.get_mimetype(path)
-
     return send_file(full_path, mimetype=mimetype)
 
 @app.route('/<path:path>')
